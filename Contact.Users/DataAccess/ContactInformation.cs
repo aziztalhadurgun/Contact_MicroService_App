@@ -7,6 +7,5 @@
         public string InformationType { get; set; }
         public string InformationDetail { get; set; }
 
-        public User User { get; set; }
     }
 }
