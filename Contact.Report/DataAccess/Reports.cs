@@ -1,6 +1,6 @@
 ﻿namespace Contact.Report.DataAccess
 {
-    public class Report
+    public class Reports
     {
         public Guid Id { get; set; }
         public DateTime CreatedOn { get; set; }

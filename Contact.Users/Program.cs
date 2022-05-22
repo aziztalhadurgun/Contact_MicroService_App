@@ -75,6 +75,15 @@ app.MapPost("/userDetailAdd/{id}", async (Guid id, ContactInformation info, User
     return Results.BadRequest("Contact information could not be added");
 });
 
+app.MapGet("/userDetails", async (UserDbContext db) =>
+{
+    var results = await db.Users
+        .Include(x => x.ContactInformations)
+        .ToListAsync();
+
+    return Results.Ok(results);
+});
+
 app.MapGet("/userDetailById/{id}", async (Guid? id, UserDbContext db) =>
 {
     if (!id.HasValue)

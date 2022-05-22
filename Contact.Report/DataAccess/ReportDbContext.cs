@@ -12,7 +12,7 @@ namespace Contact.Report.DataAccess
         {
         }
 
-        public DbSet<Report> Reports{ get; set; }
+        public DbSet<Reports> Reports{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,7 +22,7 @@ namespace Contact.Report.DataAccess
 
         private static void SnakeCaseIdentityTableNames(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Report>(b => { b.ToTable("report"); });
+            modelBuilder.Entity<Reports>(b => { b.ToTable("report"); });
         }
 
     }
