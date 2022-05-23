@@ -1,5 +1,6 @@
 ﻿using Contact.Report.Config;
 using Contact.Report.DataAccess;
+using Contact.Report.Herpers;
 using Contact.Report.Models;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
@@ -8,7 +9,7 @@ namespace Contact.Report.BusinessLogic
 {
     public interface IReportCreator
     {
-        public Task<List<UserModel>> BuildReport();
+        public Task<List<ReportModel>> BuildReport();
     }
 
     public class ReportCreator : IReportCreator
@@ -31,16 +32,41 @@ namespace Contact.Report.BusinessLogic
             _userDataConfig = userDataConfig.Value;
         }
 
-        public async Task<List<UserModel>> BuildReport()
+        public async Task<List<ReportModel>> BuildReport()
         {
             var httpClient = _http.CreateClient();
 
             var userData = await FetchUserData(httpClient);
             _logger.LogInformation($"users: {userData}");
 
-            //TODO: raporlama oluşturulacak
+            var result = userData
+                .SelectMany(info => info.ContactInformations, (info, user) => new { info, user })
+                .Where(pair => pair.user.InformationType == Constants.Location)
+                .GroupBy(pair => pair.user.InformationDetail, pair => pair.info);
 
-            return userData;
+            var responseModel = new List<ReportModel>();
+
+            foreach (var item in result)
+            {
+                var location = item.Key;
+                var userCount = item.Count();
+
+                var phoneNumbers = item
+                    .SelectMany(info => info.ContactInformations, (info, user) => new { info, user })
+                    .Where(pair => pair.user.InformationType == Constants.PhoneNumber)
+                    .GroupBy(pair => pair.user.InformationDetail, pair => pair.info);
+
+                var phoneNumberCount = phoneNumbers.Count();
+
+                responseModel.Add(new ReportModel 
+                { 
+                    Status = location,
+                    UserCount = userCount,
+                    PhoneNumberCount = phoneNumberCount
+                });
+            }
+
+            return responseModel;
         }
 
         private async Task<List<UserModel>> FetchUserData(HttpClient httpClient)
