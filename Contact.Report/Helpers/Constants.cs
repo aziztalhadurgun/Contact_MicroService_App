@@ -1,4 +1,4 @@
-﻿namespace Contact.Report.Herpers
+﻿namespace Contact.Report.Helpers
 {
     public static class Constants
     {

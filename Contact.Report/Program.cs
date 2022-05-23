@@ -2,7 +2,7 @@ using Contact.Report.BusinessLogic;
 using Contact.Report.Config;
 using Contact.Report.Consumers;
 using Contact.Report.DataAccess;
-using Contact.Report.Herpers;
+using Contact.Report.Helpers;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
@@ -61,7 +61,7 @@ app.MapPost("/createReport", async (ReportDbContext db, ISendEndpointProvider se
     var endpoint = await sendEndpointProvider.GetSendEndpoint(new Uri("queue:create-report-queue"));
     await endpoint.Send<Reports>(report);
 
-    return Results.Ok();
+    return Results.Ok(report);
 });
 
 app.MapGet("/reports", async (ReportDbContext db) =>
