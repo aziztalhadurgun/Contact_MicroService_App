@@ -2,6 +2,7 @@ using Contact.Report.BusinessLogic;
 using Contact.Report.Config;
 using Contact.Report.Consumers;
 using Contact.Report.DataAccess;
+using Contact.Report.Herpers;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
@@ -51,7 +52,7 @@ app.MapPost("/createReport", async (ReportDbContext db, ISendEndpointProvider se
     {
         Id = Guid.NewGuid(),
         CreatedOn = DateTime.UtcNow,
-        Status = "Hazýrlanýyor"
+        Status = Constants.GettingReady
     };
 
     await db.AddAsync(report);

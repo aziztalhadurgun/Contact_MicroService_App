@@ -1,5 +1,6 @@
 ﻿using Contact.Report.BusinessLogic;
 using Contact.Report.DataAccess;
+using Contact.Report.Herpers;
 using MassTransit;
 
 namespace Contact.Report.Consumers
@@ -27,7 +28,7 @@ namespace Contact.Report.Consumers
             var buildReport = _reportCreator.BuildReport();
             _logger.LogInformation($"report completed: {buildReport}");
 
-            report.Status = "Tamamlandı";
+            report.Status = Constants.Completed;
             
             _dbContext.Update(report);
             await _dbContext.SaveChangesAsync();
