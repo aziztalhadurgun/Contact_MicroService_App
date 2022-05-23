@@ -8,7 +8,7 @@ namespace Contact.Report.BusinessLogic
 {
     public interface IReportCreator
     {
-        public Task BuildReport();
+        public Task<List<UserModel>> BuildReport();
     }
 
     public class ReportCreator : IReportCreator
@@ -31,13 +31,16 @@ namespace Contact.Report.BusinessLogic
             _userDataConfig = userDataConfig.Value;
         }
 
-        public async Task BuildReport()
+        public async Task<List<UserModel>> BuildReport()
         {
             var httpClient = _http.CreateClient();
 
             var userData = await FetchUserData(httpClient);
             _logger.LogInformation($"users: {userData}");
 
+            //TODO: raporlama oluşturulacak
+
+            return userData;
         }
 
         private async Task<List<UserModel>> FetchUserData(HttpClient httpClient)
