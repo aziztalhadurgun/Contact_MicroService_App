@@ -95,7 +95,7 @@ namespace Contact.Report.BusinessLogic
                 row++;
             }
 
-            workbook.SaveAs("ExcelFiles/Report.xlsx");
+            workbook.SaveAs($"ExcelFiles/Report-{DateTime.Now}.xlsx");
         }
 
         private async Task<List<UserModel>> FetchUserData(HttpClient httpClient)
