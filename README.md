@@ -1,5 +1,5 @@
 
-# Assessment
+# Proje Hakkında
 Projeler .NET 6 Minimal API ile geliştirilmiştir.\
 Report servisinden yeni bir rapor istenildiğinde REST ile Users servisi ile iletişime geçer.\
 Rapor talepleri asenkron çalışmaktadır. Kullanıcı bir rapor talep ettiğinde, sistem 
